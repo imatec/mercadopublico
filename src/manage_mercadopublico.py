@@ -48,6 +48,8 @@ def ordenesdecompra(estado="todos", codigo=None, organismo=None, proveedor=None,
     ticket = current_app.config.get('MP_TICKET', None)
     url = current_app.config.get('MP_ENDPOINT_ORDENESDECOMPRA', None)
     payload = {"ticket": ticket}
+    if estado:
+        payload["estado"] = estado
     if codigo:
         payload["codigo"] = codigo
     if organismo:
@@ -67,6 +69,8 @@ def licitaciones(estado="activas", codigo=None, organismo=None, proveedor=None, 
     ticket = current_app.config.get('MP_TICKET', None)
     url = current_app.config.get('MP_ENDPOINT_LICITACIONES', None)
     payload = {"ticket": ticket}
+    if estado:
+        payload["estado"] = estado
     if codigo:
         payload["codigo"] = codigo
     if organismo:
@@ -77,3 +81,8 @@ def licitaciones(estado="activas", codigo=None, organismo=None, proveedor=None, 
         fecha = parser.parse(fecha)
         payload["fecha"] = fecha.strftime("%d%m%Y")
     _try_request_and_save(url, payload, json_filename)
+
+
+@MPCommand.command
+def ticket():
+    print(current_app.config.get('MP_TICKET', None))
