@@ -1,0 +1,631 @@
+http://api.mercadopublico.cl/modules/api.aspx
+
+Información disponible
+======================
+
+api.mercadopublico.cl permite consumir información de Licitaciones y Órdenes de Compra generadas en la plataforma de compras públicas de ChileCompra, www.mercadopublico.cl, donde 850 organismos del Estado chileno compran bienes y servicios a más de 118.000 proveedores del Estado, el 91% de los cuales son micro y pequeñas empresas.
+
+Trabajar con Licitaciones
+
+La siguiente información está disponible para ser usada:
+
+    Listar Licitaciones diarias
+    Listar Licitaciones por código
+    Listar Licitaciones diarias por estado
+    Listar Licitaciones por día
+    Listar Licitaciones por estado y día
+    Listar Licitaciones por código de organismo público o proveedor *Nuevo
+
+    Ver detalle sobre cómo usar información de licitaciones
+    Ver significado de etiquetas disponibles
+
+
+
+Trabajar con Órdenes de Compra
+
+La siguiente información está disponible para ser usada:
+
+    Listar Órdenes de Compra diarias
+    Listar Órdenes de Compra por código
+    Listar Órdenes de Compra diarias por estado
+    Listar Órdenes de Compra por día
+    Listar Órdenes de Compra por estado y día
+    Listar Órdenes de Compra por código de organismo público o proveedor *Nuevo
+
+    Ver detalle sobre cómo usar información de órdenes de compra
+    Ver significado de etiquetas disponibles
+
+
+
+Códigos de Organismos Públicos y Proveedores
+
+Para obtener el código de un Proveedor debe consumir el siguiente método indicando el rut de la empresa a buscar (debe incluir puntos, guion y digito verificador):
+http://api.mercadopublico.cl/servicios/v1/Publico/Empresas/BuscarProveedor?rutempresaproveedor=70.017.820-k&ticket=F8537A18-6766-4DEF-9E59-426B4FEE2844
+
+Donde:
+
+    Código Empresa: Código de la empresa Proveedor. Ejemplo de {CodigoEmpresa} = 17793
+    Nombre Empresa: Nombre de la empresa Proveedor. Ejemplo de {NombreEmpresa} = "Cámara de Comercio de Santiago A.G. (CCS)".
+
+
+Para obtener el código de un Organismo Público debe consumir el siguiente método, el cual devuelve un listado de todos los Organismos Públicos de la plataforma Mercado Publico:
+http://api.mercadopublico.cl/servicios/v1/Publico/Empresas/BuscarComprador?ticket=F8537A18-6766-4DEF-9E59-426B4FEE2844
+
+Donde:
+
+    Código Empresa: Código del organismo público. Ejemplo de {CodigoEmpresa} = 6945
+    Nombre Empresa: Nombre del organismo público. Ejemplo de {NombreEmpresa} = "Dirección de Compras y Contratación Pública".
+
+
+Información General de Licitaciones
+===================================
+
+api.mercadopublico.cl fue implementada para que las URLs puedan ser utilizadas mediante parámetros GET, con el objetivo de indicar las características de la petición que se ejecuta.
+
+{ticket} de prueba
+
+N°: F8537A18-6766-4DEF-9E59-426B4FEE2844
+
+Número disponible sólo para pruebas. Recuerde solicitar su ticket para poder utilizar estos servicios.
+
+*se ha utilizado la fecha 02 de Febrero del 2014 a modo referencial, y su formato de uso es ddmmaaaa
+
+Servicio Web
+
+Los archivos de los recursos a los que se accede a través de api.mercadopublico.cl, utilizan las siguientes estructuras:
+
+    Formato JSON:
+    http://api.mercadopublico.cl/servicios/v1/publico/licitaciones.json?fecha=02022014&ticket=F8537A18-6766-4DEF-9E59-426B4FEE2844
+
+    Formato JSONP:
+    http://api.mercadopublico.cl/servicios/v1/publico/licitaciones.jsonp?fecha=02022014&callback=respuesta&ticket=F8537A18-6766-4DEF-9E59-426B4FEE2844
+
+    Formato XML:
+    http://api.mercadopublico.cl/servicios/v1/publico/licitaciones.xml?fecha=02022014&ticket=F8537A18-6766-4DEF-9E59-426B4FEE2844
+
+
+Notas sobre la información solicitada
+
+Los estados de las licitaciones consultadas serán mostrados por código, descritos de la siguiente forma:
+
+    Publicada = "5"
+    Cerrada = "6"
+    Desierta = "7"
+    Adjudicada = "8"
+    Revocada = "18"
+    Suspendida = "19"
+
+
+Tipos de Consultas
+
+    Por {código} de licitación:
+
+    Ejemplo de {codigo} = 1509-5-L114
+
+    http://api.mercadopublico.cl/servicios/v1/publico/licitaciones.json?codigo=1509-5-L114&ticket=F8537A18-6766-4DEF-9E59-426B4FEE2844
+
+    Por todos los estados del día actual:
+
+    http://api.mercadopublico.cl/servicios/v1/publico/licitaciones.json?ticket=F8537A18-6766-4DEF-9E59-426B4FEE2844
+
+    Por todos los estados de una {fecha} en particular:
+
+    Ejemplo de {fecha} = 02022014
+
+    http://api.mercadopublico.cl/servicios/v1/publico/licitaciones.json?fecha=02022014&ticket=F8537A18-6766-4DEF-9E59-426B4FEE2844
+
+
+    Por estado "activas" :
+
+    La opción estados "activas", muestra todas las licitaciones publicadas al día de realizada la consulta.
+    http://api.mercadopublico.cl/servicios/v1/publico/licitaciones.json?estado={estado}&ticket=F8537A18-6766-4DEF-9E59-426B4FEE2844
+
+    http://api.mercadopublico.cl/servicios/v1/publico/licitaciones.json?estado=activas&ticket=F8537A18-6766-4DEF-9E59-426B4FEE2844
+
+
+    Por {estado} del día actual::
+
+    {estados} de las licitaciones:
+        Publicada
+        Cerrada
+        Desierta
+        Adjudicada
+        Revocada
+        Suspendida
+        Todos (muestra todos los estados posibles antes señalados)
+
+
+    http://api.mercadopublico.cl/servicios/v1/publico/licitaciones.json?fecha=02022014&estado={estado}&ticket=F8537A18-6766-4DEF-9E59-426B4FEE2844
+
+    http://api.mercadopublico.cl/servicios/v1/publico/licitaciones.json?fecha=02022014&estado=adjudicada&ticket=F8537A18-6766-4DEF-9E59-426B4FEE2844
+
+    Por {código} de Organismo Público:
+
+    Ejemplo de {CódigoOrganismo} = 694
+
+    http://api.mercadopublico.cl/servicios/v1/publico/licitaciones.json?fecha={fecha}&CodigoOrganismo={CódigoOrganismo}&ticket=F8537A18-6766-4DEF-9E59-426B4FEE2844
+
+    http://api.mercadopublico.cl/servicios/v1/publico/licitaciones.json?fecha=02022014&CodigoOrganismo=6945&ticket=F8537A18-6766-4DEF-9E59-426B4FEE2844
+
+    Por {código} de Proveedor:
+
+    Ejemplo de {CódigoProveedor} = 17793
+
+    http://api.mercadopublico.cl/servicios/v1/publico/licitaciones.json?fecha=02022014&CodigoProveedor={CódigoProveedor}&ticket=F8537A18-6766-4DEF-9E59-426B4FEE2844
+
+    http://api.mercadopublico.cl/servicios/v1/publico/licitaciones.json?fecha=02022014&CodigoProveedor=17793&ticket=F8537A18-6766-4DEF-9E59-426B4FEE2844
+
+Los resultados de las búsquedas son realizadas en base a las Licitaciones Publicadas en el día. Los resultados entregados son con información básica de las Licitaciones.
+
+En el caso de la búsqueda por código no importa la fecha, siempre obtendrá la Licitación solicitada. El resultado entregado por la búsqueda es información detallada de la Licitación.
+
+El formato de la fecha es ddmmaaaa, ejemplo: 12062014, obtendrá las Licitaciones del día 12 del mes de junio del año 2014.
+
+
+Para desarrollar aplicaciones, accede al menú "Participa" ubicado en la esquina superior derecha de la página,
+llena el formulario y en motivo selecciona "Solicitud de Ticket".
+
+
+
+Documentación de Licitación
+===========================
+
+Cantidad 	Cantidad de Licitaciones consultadas
+FechaCreacion 	Fecha de consulta
+Version 	Versión del API de Mercado Público
+Listado 	Listado de Licitaciones
+CodigoExterno 	Código de la Licitación de Mercado Publico
+Nombre 	Nombre de la Licitación
+CodigoEstado 	Código del estado en el que se encuentra la Licitación
+Descripcion 	Descripción de la Licitación u objeto de la contratación
+FechaCierre 	Fecha de Cierre de la Licitación
+Estado 	Estado en el que se encuentra la Licitación
+Comprador
+CodigoOrganismo 	Código de la Institución u Organismo Público
+responsable de la Licitación
+NombreOrganismo 	Nombre de la Institución u Organismo Público
+responsable de la Licitación
+RutUnidad 	Rut de la Institución u Organismo Público
+responsable de la Licitación
+CodigoUnidad 	Código de la Institución u Organismo Público
+responsable de la Licitación
+NombreUnidad 	Nombre de la Institución u Organismo Público
+responsable de la Licitación
+DireccionUnidad 	Nombre de la Institución u Organismo Público
+responsable de la Licitación
+ComunaUnidad 	Comuna de la Institución u Organismo Público
+responsable de la Licitación
+RegionUnidad 	Región de la Institución u Organismo Público
+responsable de la Licitación
+RutUsuario 	Rut del usuario responsable de la Licitación
+CodigoUsuario 	Código del usuario responsable de la Licitación
+NombreUsuario 	Nombre de usuario responsable de la Licitación
+CargoUsuario 	Cargo del usuario responsable de la Licitación
+DiasCierreLicitacion 	Indica la cantidad de días para el cierre de la Licitación
+Informada 	Ver Anexo
+CodigoTipo 	Ver Anexo
+Tipo 	Ver Anexo
+TipoConvocatoria 	Indica el tipo de convocatoria
+Moneda 	Código de la moneda en la Licitación. Ver Anexo
+Etapas 	Número de etapas de la licitación (1 o 2 etapas)
+EstadoEtapas 	Indica las aperturas realizadas en la licitación [1,2]
+TomaRazon 	Ver Anexo
+EstadoPublicidadOfertas 	Ver Anexo
+JustificacionPublicidad 	Descripción que justifica mostrar la oferta técnica para público conocimiento. (Paso 1)
+EstadoCS 	Valor que se utiliza para la pre selección de ofertas (negociación).
+En la ficha de licitación si la licitación es de tipo LS y El campo
+rbhStatusCS > 2 y el estado anterior a cerrada se muestra el botón de
+preselección de ofertas. También se utiliza este campo para activar la edición
+de la invitación a proveedores (Si es <> 2 no se edita el paso), en la búsqueda de
+licitaciones privadas se utiliza para mostrar el botón de foro.
+En la apertura se utilizaba para visualizar el ranking de oferta, pero ahora esta
+opción no está visible desde el 31/05/2010.
+Valores posibles :
+null = cuando se crea la licitación,
+1 = se asigna cuando se publica,
+2 = Se asigna cuando se acepta la pre oferta,
+3 = Indica que las fechas en la prcRFBDate fueron ingresadas,
+4 = cuando se inserta el ranking o criterio en la tabla prcRankingCS,
+5 = Cuando se publica toma de razón de la LS
+Contrato 	1 = Contrato Requiere subscripción
+2 = Contrato Formaliza con OC Esta opción
+esta visible para las licitaciones de tipo LE, se agregó el 2011 por cambio al reglamento (Paso 1)
+Obras 	Ver Anexo
+CantidadReclamos 	Número de reclamos que se ha recibido la Institución u Organismo Público responsable de la Licitación
+Fechas
+FechaCreacion 	Fecha de Creación de la Licitación
+FechaCierre 	Fecha de Cierre de la Licitación
+FechaInicio 	Fecha de Inicio de la Licitación
+FechaFinal 	Fecha Final de la Licitación
+FechaPubRespuestas 	Fecha de Publicación de las Respuestas de la Licitación
+FechaActoAperturaTecnica 	Fecha del Acto de Apertura Técnica de la Licitación
+FechaActoAperturaEconomica 	Fecha del Acto de Apertura Económica de la Licitación
+FechaPublicacion 	Fecha de Publicación de la Licitación
+FechaAdjudicacion 	Fecha de Adjudicación de la Licitación
+FechaEstimadaAdjudicacion 	Fecha Estimada de Adjudicación de la Licitación
+FechaSoporteFisico 	Fecha Soporte Físico de la Licitación
+FechaTiempoEvaluacion 	Fecha de la Evalucación de la Liciatación
+FechaEstimadaFirma 	Fecha Estimada de la Firma
+FechasUsuario 	Indica si el usuario definió fechas adicionales a la licitación
+FechaVisitaTerreno 	Fecha de la visita a terreno
+FechaEntregaAntecedentes 	Fecha en que se deben entregar los Antecedentes
+UnidadTiempoEvaluacion 	Indica la unidad de tiempo de la avaluación
+DireccionVisita 	Dirección de visita
+DireccionEntrega 	Dirección de entrega
+Estimacion 	Código de tipo de estimación.Ver Anexo
+FuenteFinanciamiento 	Indica la fuente de financiamiento
+VisibilidadMonto 	Información explicada en sección 3.8 de este documento
+MontoEstimado 	Monto estimado que maneja el Organismo o Institución para licitar
+Tiempo 	Tiempo del contrato
+UnidadTiempo 	Informa el tipo de unidad de tiempo asociada a la etiqueta "TiempoDuracionContrato". Ver Anexo
+Modalidad 	Ver Anexo
+TipoPago 	Indica el tipo de pago que se realizará
+NombreResponsablePago 	Nombre de la persona responsable del pago
+EmailResponsablePago 	Correo electrónico de la persona responsable del pago
+NombreResponsableContrato 	Nombre de la persona responsable del contrato
+EmailResponsableContrato 	Correo electrónico de la persona responsable del contrato
+FonoResponsableContrato 	Teléfono de contacto de la persona responsable del contrato
+ProhibicionContratacion 	Indica si se prohibe la contratación
+SubContratacion 	Ver Anexo
+UnidadTiempoDuracionContrato 	Ver Anexo
+TiempoDuracionContrato 	Duración del contrato, la cual está vinculada con la etiqueta "UnidadTiempoDuracionContrato" para ver que unidad de tiempo es la definida por el Organismo Comprador.
+TipoDuracionContrato 	Nombre de período de tiempo
+JustificacionMontoEstimado 	Justificación del monto estimado
+ObservacionContract 	Observaciones de Montos, duración y subcontratación (texto libre)
+ExtensionPlazo 	Ver Anexo
+EsBaseTipo 	Ver Anexo
+UnidadTiempoContratoLicitacion 	Código de período de tiempo
+ValorTiempoRenovacion
+PeriodoTiempoRenovacion 	Nombre del período de tiempo de renovación
+EsRenovable 	Ver Anexo
+Adjudicacion
+Tipo 	Código del tipo de documento que garantiza la adjudicación. Ver Anexo
+Fecha 	Fecha del documento administrativo que garantiza la adjudicación, la cual depende de la etiqueta anterior.
+Numero 	Número del documento administrativo que garantiza la adjudicación, la cual depende de la etiqueta anterior.
+NumeroOferentes 	Despliega la cantidad de proveedores adjudicados
+UrlActa 	URL que despliega el acta de adjudicación en www.mercadopublico.cl y el listado completo de proveedores que participaron en el proceso, adjudicados y no adjudicados.
+Items
+Cantidad 	Número de productor o servicios de la Licitación
+Listado
+Correlativo 	Número que indica el correlativo del producto o servicio licitado
+CodigoProducto 	Código del producto
+CodigoCategoria 	Código de la categoría (Se utiliza la codificación standard de las Naciones Unidas para productos y servicios – UNSPSC Versión 7)
+Categoria 	Nombre de la categoría y los niveles donde está incluida el producto o servicio.
+NombreProducto 	Nombre del producto o servicio
+Descripcion 	Descripción del producto o servicio
+UnidadMedida 	Unidad de medida del producto o servicio
+Cantidad 	Cantidad del producto o servicio
+Adjudicacion
+RutProveedor 	Rut del proveedor adjudicado (Por línea)
+NombreProveedor 	Nombre del proveedor adjudicado (Por línea)
+Cantidad 	Cantidad de producto o servicio adjudicado (por línea)
+MontoUnitario 	Monto unitario del producto o servicio adjudicado (por línea)
+
+Anexos
+Tipo de Licitación
+Valor 	Descripción
+L1 	Licitación Pública Menor a 100 UTM (L1)
+LE 	Licitación Pública Entre 100 y 1000 UTM (LE)
+LP 	Licitación Pública Mayor 1000 UTM (LP)
+LS 	Licitación Pública Servicios personales especializados (LS)
+A1 	Licitación Privada por Licitación Pública anterior sin oferentes (A1)
+B1 	Licitación Privada por Remanente de Contrato anterior (B1)
+E1 	Licitación Privada por Convenios con Personas Jurídicas Extranjeras fuera del Territorio Nacional (E1)
+F1 	Licitación Privada por Servicios de Naturaleza Confidencial (F1)
+J1 	Licitación Privada por otras causales, excluidas de la ley de Compras ( J1)
+CO 	Licitación Privada entre 100 y 1000 UTM
+B2 	Licitación Privada Mayor a 1000 UTM
+A2 	Trato Directo por Producto de Licitación Privada anterior sin oferentes o desierta (A2)
+D1 	Trato Directo por Proveedor Único (D1)
+E2 	Licitación Privada Menor a 100 UTM
+C2 	Trato Directo (Cotización) (C2)
+C1 	Compra Directa (Orden de compra) (C1)
+F2 	Trato Directo (Cotización) (F2)
+F3 	Compra Directa (Orden de compra) (F3)
+G2 	Directo (Cotización) (G2)
+G1 	Compra Directa (Orden de compra) (G1)
+R1 	Orden de Compra menor a 3 UTM (R1)
+CA 	Orden de Compra sin Resolución (CA)
+SE 	Orden de Compra proveniente de adquisición sin emisión automática de OC (SE)
+Unidad Monetaria
+Valor 	Descripción
+CLP 	Peso Chileno
+CLF 	Unidad de Fomento
+USD 	Dólar Americano
+UTM 	Unidad Tributaria Mensual
+EUR 	Euro
+Monto estimado
+Valor 	Descripción
+1    	Presupuesto Disponible
+2    	Precio Referencial
+Modalidad de Pago
+Valor 	Descripción
+1 	Pago a 30 días
+2 	Pago a 30, 60 y 90 días
+3 	Pago al día
+4 	Pago Anual
+5 	Pago Bimensual
+6 	Pago Contra Entrega Conforme
+7 	Pagos Mensuales
+8 	Pago Por Estado de Avance
+9 	Pago Trimestral
+10 	Pago a 60 días
+Unidad de Tiempo de Evaluación
+Valor 	Descripción
+1 	Horas
+2 	Días
+3 	Semanas
+4 	Meses
+5 	Años
+Unidad de Tiempo duración del contrato
+Valor 	Descripción
+1 	Horas
+2 	Días
+3 	Semanas
+4 	Meses
+5 	Años
+Tipo de Acto Administrativo que adjudica o aprueba el contrato
+Valor 	Descripción
+1 	Autorización
+2 	Resolución
+3 	Acuerdo
+4 	Decreto
+5 	Otros
+Valores Binarios
+
+Existen varios datos del XML de licitación que se formatean en base a lógica binaria, estos son:
+Campo 	Comentario 	Valores 	Ejemplo
+Licitación informada 	Especifica si la licitación es informada 	1=Si
+0=No 	<Informada>0</Informada>
+Tipo de Licitación 	Informa el tipo de Licitación 	1=Pública
+2=Privada 	<CodigoTipo>1</CodigoTipo>
+Toma de Razón 	Indica si la Licitación requiere toma de razón por parte de la Contraloría 	1=Si
+0=N0 	<TomaRazon>0</TomaRazon>
+Visibilidad de Ofertas técnicas 	Sí, las ofertas técnicas serán de público conocimiento una vez realizada la apertura técnica de las ofertas. 	1=Si
+0=No 	<EstadoPublicidadOfertas>1</EstadoPublicidadOfertas>
+Contrato 		1=Si
+0=No 	<Contrato>NO</Contrato>
+Obras 	Licitación del tipo Obra Pública 	2=Si
+1=No 	<Obras>0</Obras>
+Visibilidad del Monto 	Hacer público el monto estimado en la ficha de la licitación 	1=Si
+0=No 	<VisibilidadMonto>1</VisibilidadMonto>
+Permite Subcontratación 	Permite la subcontratación 	1=Si
+0=No 	<SubContratacion>1</SubContratacion>
+Extensión del Plazo 	Si a la fecha/hora de cierre de recepción de ofertas, se han recibido 2 o menos propuestas, el plazo de cierre se ampliará automáticamente en 2 días hábiles, por una sola vez, bajo las condiciones establecidas por el artículo 25, inciso final, del reglamento de la ley 19.886. 	1=Extiende
+0=No extiende 	<ExtensionPlazo>0</ExtensionPlazo>
+Es Base Tipo 	Indica si la licitación fue creada a través de licitaciones tipo. 	1=Si
+0=No 	<EsBaseTipo>0</EsBaseTipo>
+Es Renovable 		1=Si
+0=No 	<EsRenovable>0</EsRenovable>
+
+
+
+
+
+Información General de Órdenes de Compras
+=========================================
+
+api.mercadopublico.cl fue implementada para que las URIs puedan ser utilizadas mediante parámetros GET, con el objetivo de indicar las características de la petición que se ejecuta.
+
+{ticket} de prueba
+
+N°: F8537A18-6766-4DEF-9E59-426B4FEE2844
+
+Número disponible sólo para pruebas. Recuerde solicitar su ticket para poder utilizar estos servicios.
+
+*se ha utilizado la fecha 02 de Febrero del 2014 a modo referencial, y su formato de uso es ddmmaaaa
+
+Servicio Web
+
+Los archivos de los recursos a los que se accede a través de api.mercadopublico.cl, utilizan las siguientes estructuras:
+
+    Formato JSON:
+    http://api.mercadopublico.cl/servicios/v1/publico/ordenesdecompra.json?fecha=02022014&ticket=F8537A18-6766-4DEF-9E59-426B4FEE2844
+
+    Formato JSONP:
+    http://api.mercadopublico.cl/servicios/v1/publico/ordenesdecompra.jsonp?fecha=02022014&callback=respuesta&ticket=F8537A18-6766-4DEF-9E59-426B4FEE2844
+
+    Formato XML:
+    http://api.mercadopublico.cl/servicios/v1/publico/ordenesdecompra.xml?fecha=02022014&ticket=F8537A18-6766-4DEF-9E59-426B4FEE2844
+
+
+Notas sobre la información solicitada
+
+Los estados de las órdenes de compra consultadas serán mostrados por código, descritos de la siguiente forma:
+
+    Enviada a Proveedor = "4"
+    Aceptada = "6"
+    Cancelada = "9"
+    Recepción Conforme = "12"
+    Pendiente de Recepcionar = "13"
+    Recepcionada Parcialmente = "14"
+    Recepcion Conforme Incompleta = "15"
+
+
+Tipos de Consulta
+
+    Por {código} de orden de compra:
+
+    Ejemplo de {codigo} = 2097-241-SE14
+
+    http://api.mercadopublico.cl/servicios/v1/publico/ordenesdecompra.json?codigo=2097-241-SE14&ticket=F8537A18-6766-4DEF-9E59-426B4FEE2844
+
+    Por todos los estados del día actual:
+
+    http://api.mercadopublico.cl/servicios/v1/publico/ordenesdecompra.json?estado=todos&ticket=F8537A18-6766-4DEF-9E59-426B4FEE2844
+
+    Por todos los estados de una {fecha} específica:
+
+    Ejemplo de {fecha} = 02022014
+
+    http://api.mercadopublico.cl/servicios/v1/publico/ordenesdecompra.json?fecha=02022014&ticket=F8537A18-6766-4DEF-9E59-426B4FEE2844
+
+    Por {estado} del día actual:
+
+    Ejemplo de {estado} = ACEPTADA
+
+    {estados} de las órdenes de compra y su nomenclatura:
+        Enviada a Proveedor = "enviadaproveedor"
+        Aceptada = "aceptada"
+        Cancelada = "cancelada"
+        Recepción Conforme = "recepcionconforme"
+        Pendiente de Recepcionar = "pendienterecepcion"
+        Recepcionada Parcialmente = "recepcionaceptadacialmente"
+        Recepcion Conforme Incompleta = "recepecionconformeincompleta"
+        todos = "todos" (muestra todos los estados posibles antes señalados)
+
+
+    http://api.mercadopublico.cl/servicios/v1/publico/ordenesdecompra.json?fecha=02022014&estado={estado}&ticket=F8537A18-6766-4DEF-9E59-426B4FEE2844
+
+    http://api.mercadopublico.cl/servicios/v1/publico/ordenesdecompra.json?fecha=02022014&estado=aceptada&ticket=F8537A18-6766-4DEF-9E59-426B4FEE2844
+
+    Por {código} de Organismo Público:
+
+    Ejemplo de {CódigoOrganismo} = 694
+
+    http://api.mercadopublico.cl/servicios/v1/publico/ordenesdecompra.json?fecha={fecha}&CodigoOrganismo={CódigoOrganismo}&ticket=F8537A18-6766-4DEF-9E59-426B4FEE2844
+
+    http://api.mercadopublico.cl/servicios/v1/publico/ordenesdecompra.json?fecha=02022014&CodigoOrganismo=6945&ticket=F8537A18-6766-4DEF-9E59-426B4FEE2844
+
+    Por {código} de Proveedor:
+
+    Ejemplo de {CódigoProveedor} = 17793
+
+    http://api.mercadopublico.cl/servicios/v1/publico/ordenesdecompra.json?fecha=02022014&CodigoProveedor={CódigoProveedor}&ticket=F8537A18-6766-4DEF-9E59-426B4FEE2844
+
+    http://api.mercadopublico.cl/servicios/v1/publico/ordenesdecompra.json?fecha=02022014&CodigoProveedor=17793&ticket=F8537A18-6766-4DEF-9E59-426B4FEE2844
+
+Los resultados de las búsquedas son realizadas en base a los números de Órdenes de Compra enviadas en el día. Los resultados entregados son con información básica de las Órdenes de Compra.
+
+En el caso de la búsqueda por código no importa la fecha, siempre obtendrá la Orden de Compra solicitada. El resultado entregado posee información detallada de la O.C.
+
+El formato de la fecha es ddmmaaaa, ejemplo: 12062014, obtendrá las Órdenes de Compra del día 12 del mes de junio del año 2014.
+
+
+Para desarrollar aplicaciones, accede al menú "Participa" ubicado en la esquina superior derecha de la página,
+llena el formulario y en motivo selecciona "Solicitud de Ticket".
+
+
+
+
+Documentación de Orden de Compra
+================================
+
+
+Cantidad 	Cantidad de Órdenes de compra encontradas
+FechaCreacion 	Fecha de consulta
+Version 	Código de la Orden de compra de Mercado Publico
+Listado 	Listado de Ordenes de Compra
+Codigo 	Código de la Orden de compra de Mercado Publico
+Nombre 	Nombre de la Orden de Compra
+CodigoEstado 	Código del estado en el que se encuentra la Orden de compra
+CodigoLicitacion 	Código de la Licitación asociada a la Orden de Compra
+Descripcion 	Descripción de la Orden de Compra
+CodigoTipo 	Código del tipo de Orden de Compra
+Tipo 	Tipo de Orden de compra. Ver Anexo
+TipoMoneda 	Tipo Moneda de la Orden de Compra. Ver Anexo
+CodigoEstadoProveedor 	Código estado del Proveedor
+EstadoProveedor 	Estado del Proveedor
+Fechas
+FechaCreacion 	Fecha de creación de la Orden de compra
+FechaEnvio 	Fecha de envió de la Orden de compra
+FechaAceptacion 	Fecha de aceptación Orden de compra
+FechaCancelacion 	Fecha cancelación de orden de compra
+FechaUltimaModificacion 	Fecha de Ultima Modificación de la Orden de compra
+TieneItems 	Indica si tiene Items. 1 = SI, 0 = NO
+PromedioCalificacion 	Promedio de calificación del proveedor
+CantidadEvaluacion 	Evaluación del proveedor
+Descuentos 	Descuento aplicado a la Orden de compra
+Cargos 	Cargos aplicados a la Orden de compra
+TotalNeto 	Total neto de la Orden de compra
+PorcentajeIva 	Porcentaje del IVA aplicado a la Orden de compra
+Impuestos 	Impuesto aplicado a la Orden de compra
+Total 	Total de la Orden de compra
+Financiamiento 	Fuente de Financiamiento
+Pais 	País al que pertenece la Orden de compra
+TipoDespacho 	Código que identifica el Tipo de Despacho. Ver Anexo
+FormaPago 	Código que identifica la forma de pago. Ver Anexo
+Comprador
+CodigoOrganismo 	Código que identifica al organismo comprador
+NombreOrganismo 	Nombre del organismo del comprador
+RutUnidad 	Rut de la Unidad
+CodigoUnidad 	Código de Unidad
+NombreUnidad 	Nombre de Unidad
+Actividad 	Actividad del Comprador
+DireccionUnidad 	Dirección de la unidad compradora
+ComunaUnidad 	Comuna de la unidad compradora
+RegionUnidad 	Región de la unidad compradora
+Pais 	País de la unidad compradora
+NombreContacto 	Nombre contacto
+CargoContacto 	Cargo del contacto
+FonoContacto 	Teléfono del Contacto
+MailContacto 	E-Mail del contacto
+Proveedor
+Codigo 	Código del proveedor
+Nombre 	Nombre del proveedor
+Actividad 	Actividad del Proveedor
+CodigoSucursal 	Código de la sucursal del proveedor
+NombreSucursal 	Nombre de la sucursal del proveedor
+RutSucursal 	Rut del Proveedor
+Direccion 	Dirección del proveedor
+Comuna 	Comuna del proveedor
+Region 	Región del proveedor
+Pais 	País del proveedor
+NombreContacto 	Nombre contacto del proveedor
+CargoContacto 	Cargo del contacto del proveedor
+FonoContacto 	Teléfono del contacto del proveedor
+MailContacto 	E Mail del contacto del proveedor
+Items
+Cantidad 	Cantidad de Items (Productos) de la orden de compra
+Listado 	Listado de Items
+Correlativo 	Correlativo de Items
+CodigoCategoria 	Código de categoría a la que pertenece el producto
+Categoria 	Categoría a la que pertenece el producto
+CodigoProducto 	Codigo del producto
+EspecificacionComprador 	Especificaciones del producto que necesita el comprador
+EspecificacionProveedor 	Especificaciones del producto proveído por el proveedor
+Cantidad 	Cantidad de productos
+Moneda 	Tipo de moneda del producto. Ver Anexo
+PrecioNeto 	Precio neto o precio unitario del producto
+TotalCargos 	Total cargos asociados a la multiplicación del Precioneto * Cantidad
+TotalDescuentos 	Total Descuentos asociados a la multiplicación del Precioneto * Cantidad
+TotalImpuestos 	Total de impuesto asociados a la multiplicación del Precioneto * Cantidad
+Total 	Total final de precios de los productos
+
+Anexos
+Tipo Orden de compra
+Codigo 	Abreviación 	Descripción
+1 	OC 	Automatica
+2 	D1 	Trato directo que genera Orden de Compra por proveedor único
+3 	C1 	Trato directo que genera Orden de Compra por emergencia, urgencia e imprevisto
+4 	F3 	Trato directo que genera Orden de Compra por confidencialidad
+5 	G1 	Trato directo que genera Orden de Compra por naturaleza de negociación
+6 	R1 	Orden de compra menor a 3UTM
+7 	CA 	Orden de compra sin resolución.
+8 	SE 	Sin emisión automática
+9 	CM 	Convenio Marco
+10 	FG 	FG
+11 	TL 	TL
+Unidad Monetaria
+Valor 	Descripción
+CLP 	Peso Chileno
+CLF 	Unidad de Fomento
+USD 	Dólar Americano
+UTM 	Unidad Tributaria Mensual
+EUR 	Euro
+Tipo de despacho
+Valor 	Descripción
+7 	Despachar a Dirección de envío
+9 	Despachar según programa adjuntado
+12 	Otra Forma de Despacho, Ver Instruc
+14 	Retiramos de su bodega
+20 	Despacho por courier o encomienda aérea
+21 	Despacho por courier o encomienda terrestre
+22 	A convenir
+Tipo de despacho
+Valor 	Descripción
+1 	15 días contra la recepción de la factura
+2 	30 días contra la recepción de la factura
+39 	Otra forma de pago
+46 	50 días contra la recepción de la factura
+47 	60 días contra la recepción de la factura
