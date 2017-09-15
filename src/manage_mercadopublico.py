@@ -22,26 +22,38 @@ def _try_request_and_save(url, payload, json_filename=None):
         print(ex)
 
 
-@MPCommand.command
-def buscarproveedor(rut="6-k", json_filename=None):
+@MPCommand.option('-f', '--file', dest='filename', help='nombre de archivo para guardar salida en JSON')
+@MPCommand.option('-r', '--rit', dest='rut', help='rut de proveedor')
+def buscarproveedor(rut="6-k", filename=None):
+    """
+    Buscar proveedores por rut
+    """
     ticket = current_app.config.get('MP_TICKET', None)
     url = current_app.config.get('MP_ENDPOINT_PROVEEDOR', None)
     payload = {"ticket": ticket}
     if rut:
         payload["rutempresaproveedor"] = rut
-    _try_request_and_save(url, payload, json_filename)
+    _try_request_and_save(url, payload, filename)
 
 
-@MPCommand.command
-def buscarcomprador(json_filename=None):
+@MPCommand.option('-f', '--file', dest='filename', help='nombre de archivo para guardar salida en JSON')
+def buscarcomprador(filename=None):
+    """
+    Listar organismos compradores
+    """
     ticket = current_app.config.get('MP_TICKET', None)
     url = current_app.config.get('MP_ENDPOINT_COMPRADOR', None)
     payload = {"ticket": ticket}
-    _try_request_and_save(url, payload, json_filename)
+    _try_request_and_save(url, payload, filename)
 
 
-@MPCommand.command
-def ordenesdecompra(estado="todos", codigo=None, organismo=None, proveedor=None, fecha=None, json_filename=None):
+@MPCommand.option('-d', '--fecha', dest='fecha', help='fecha de la orden de compra')
+@MPCommand.option('-p', '--proveedor', dest='proveedor', help='código del proveedor')
+@MPCommand.option('-o', '--organismo', dest='organismo', help='código del organismo comprador')
+@MPCommand.option('-c', '--codigo', dest='codigo', help='código de la orden de compra')
+@MPCommand.option('-s', '--estado', dest='estado', help='estado de la orden de compra (default: todos)')
+@MPCommand.option('-f', '--file', dest='filename', help='nombre de archivo para guardar salida en JSON')
+def ordenesdecompra(estado="todos", codigo=None, organismo=None, proveedor=None, fecha=None, filename=None):
     """
     Ordenes de compra
     """
@@ -59,10 +71,16 @@ def ordenesdecompra(estado="todos", codigo=None, organismo=None, proveedor=None,
     if fecha:
         fecha = parser.parse(fecha)
         payload["fecha"] = fecha.strftime("%d%m%Y")
-    _try_request_and_save(url, payload, json_filename)
+    _try_request_and_save(url, payload, filename)
 
-@MPCommand.command
-def licitaciones(estado="activas", codigo=None, organismo=None, proveedor=None, fecha=None, json_filename=None):
+
+@MPCommand.option('-d', '--fecha', dest='fecha', help='fecha de la licitación')
+@MPCommand.option('-p', '--proveedor', dest='proveedor', help='código del proveedor')
+@MPCommand.option('-o', '--organismo', dest='organismo', help='código del organismo comprador')
+@MPCommand.option('-c', '--codigo', dest='codigo', help='código de la orden de compra')
+@MPCommand.option('-s', '--estado', dest='estado', help='estado de la licitación (default: activas)')
+@MPCommand.option('-f', '--file', dest='filename', help='nombre de archivo para guardar salida en JSON')
+def licitaciones(estado="activas", codigo=None, organismo=None, proveedor=None, fecha=None, filename=None):
     """
     Licitaciones
     """
@@ -80,7 +98,7 @@ def licitaciones(estado="activas", codigo=None, organismo=None, proveedor=None, 
     if fecha:
         fecha = parser.parse(fecha)
         payload["fecha"] = fecha.strftime("%d%m%Y")
-    _try_request_and_save(url, payload, json_filename)
+    _try_request_and_save(url, payload, filename)
 
 
 @MPCommand.command
