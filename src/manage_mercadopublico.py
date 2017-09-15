@@ -102,5 +102,14 @@ def licitaciones(estado="activas", codigo=None, organismo=None, proveedor=None, 
 
 
 @MPCommand.command
-def ticket():
-    print(current_app.config.get('MP_TICKET', None))
+def showticket():
+    """
+    Mostrar ticket actual
+    """
+    print("""
+ticket={0}
+
+Solicitar tickets en: {1}
+""".format(
+            current_app.config.get('MP_TICKET', None),
+            "http://api.mercadopublico.cl/modules/Participa.aspx"))
