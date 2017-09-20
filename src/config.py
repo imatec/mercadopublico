@@ -43,7 +43,7 @@ class Config(object):
     # Mercado Público
     # get ticket from http://api.mercadopublico.cl/modules/Participa.aspx
     MP_TICKET = os.environ.get('MP_TICKET', 'F8537A18-6766-4DEF-9E59-426B4FEE2844')
-    MP_ENDPOINT_ORDENESDECOMPRA = "http://api.mercadopublico.cl/servicios/v1/Publico/ordene sdecompra.json"
+    MP_ENDPOINT_ORDENESDECOMPRA = "http://api.mercadopublico.cl/servicios/v1/Publico/ordenesdecompra.json"
     MP_ENDPOINT_LICITACIONES = "http://api.mercadopublico.cl/servicios/v1/Publico/licitaciones.json"
     MP_ENDPOINT_PROVEEDOR = "http://api.mercadopublico.cl/servicios/v1/Publico/Empresas/BuscarProveedor"
     MP_ENDPOINT_COMPRADOR = "http://api.mercadopublico.cl/servicios/v1/Publico/Empresas/BuscarComprador"
