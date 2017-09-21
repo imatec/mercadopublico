@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "definitions": {},
+  "id": "http://example.com/example.json",
+  "properties": {
+    "Cantidad": {
+      "id": "/properties/Cantidad",
+      "type": "integer"
+    },
+    "FechaCreacion": {
+      "id": "/properties/FechaCreacion",
+      "type": "string"
+    },
+    "Listado": {
+      "id": "/properties/Listado",
+      "items": {
+        "id": "/properties/Listado/items",
+        "properties": {
+          "CodigoEstado": {
+            "id": "/properties/Listado/items/properties/CodigoEstado",
+            "type": "integer"
+          },
+          "CodigoExterno": {
+            "id": "/properties/Listado/items/properties/CodigoExterno",
+            "maxLength": 100,
+            "type": "string"
+          },
+          "FechaCierre": {
+            "id": "/properties/Listado/items/properties/FechaCierre",
+            "type": "string"
+          },
+          "Nombre": {
+            "id": "/properties/Listado/items/properties/Nombre",
+            "maxLength": 255,
+            "type": "string"
+          }
+        },
+        "required": [
+          "CodigoEstado",
+          "FechaCierre",
+          "CodigoExterno",
+          "Nombre"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "Version": {
+      "id": "/properties/Version",
+      "type": "string"
+    }
+  },
+  "required": [
+    "Cantidad",
+    "Listado",
+    "Version",
+    "FechaCreacion"
+  ],
+  "type": "object"
+}
+
