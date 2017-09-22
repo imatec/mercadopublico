@@ -1,4 +1,4 @@
-from flask import Flask, request, session, jsonify
+from flask import Flask, request, session, jsonify, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 # from celery import Celery
@@ -6,7 +6,7 @@ from flask_migrate import Migrate
 
 db = SQLAlchemy()
 migrate = Migrate()
-#mail = Mail()
+# mail = Mail()
 
 # from config import Config
 # celery = Celery(__name__, broker=Config.CELERY_BROKER_URL)
@@ -46,14 +46,21 @@ def create_app(config_name):
 #    celery.conf.update(app.config)
 #    mail.init_app(app)
 
+    from app.mercadopublico import mp
+
+    app.register_blueprint(mp)
+
     @app.route('/')
     def index():
-        return jsonify({'response': 'OK'})
+        # return jsonify({'response': 'OK'})
+        return redirect(url_for('mp.index'))
 
-#    @babel.localeselector
-#    def get_locale():
-#        return session.get('language', request.accept_languages.best_match(app.config['LANGUAGES'].keys()))
 
-    app.jinja_env.line_statement_prefix = '#'
+
+    # @babel.localeselector
+    # def get_locale():
+    #     return session.get('language', request.accept_languages.best_match(app.config['LANGUAGES'].keys()))
+
+    # app.jinja_env.line_statement_prefix = '#'
     return app
 
