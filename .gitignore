@@ -102,7 +102,7 @@ coverage.xml
 *.pot
 
 # Django stuff:
-*.log
+src/log/app.log
 local_settings.py
 
 # Flask stuff:
