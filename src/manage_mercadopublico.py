@@ -193,12 +193,16 @@ def encrypt_row(row, content_encoding='utf-8'):
 
 
 @MPCommand.command
-def test():
-    with open("./schema/licitacion.schema.json") as f:
-        json_data = json.load(f)
-        print(json_data)
-        # json.dump(json_data, f, ensure_ascii=False, sort_keys=True, indent=4)
-        # json.dumps(json_data, f, ensure_ascii=False, sort_keys=True, indent=4)
+def jira_test():
+    host = current_app.config.get('JIRA_HOST', None)
+    user = current_app.config.get('JIRA_USER', None)
+    _pass = current_app.config.get('JIRA_PASS', None)
+    jiratool = JIRATool()
+    jiratool.auth(host, user, _pass)
+    jql = u'project = SALES AND statusCategory = Done AND status not in (Failed, IceBox)'
+    issues = jiratool.query_issues(jql)
+    for issue in issues:
+        print(issue)
 
 
 @MPCommand.option('-f', '--file', dest='filename', help='nombre de archivo JSON a leer')
