@@ -3,6 +3,9 @@ import requests
 import json
 from dateutil import parser
 from flask_script import Manager
+import re
+from app.utils import JIRATool
+
 MPCommand = Manager(usage="Mercado público")
 
 
@@ -11,10 +14,10 @@ def _try_request_and_save(url, payload, json_filename=None):
         resp = requests.get(url, params=payload, verify=False)
         print(resp.url)
         print(resp.status_code)
-        print(resp.content)
+        # print(resp.content)
         json_data = resp.json()
         if json_filename:
-            with open(json_filename, 'w') as f:
+            with open(json_filename, 'w', encoding='utf-8') as f:
                 json.dump(json_data, f, ensure_ascii=False, sort_keys=True, indent=4)
         else:
             print(json_filename)
@@ -194,6 +197,64 @@ def test():
     with open("./schema/licitacion.schema.json") as f:
         json_data = json.load(f)
         print(json_data)
-        
         # json.dump(json_data, f, ensure_ascii=False, sort_keys=True, indent=4)
         # json.dumps(json_data, f, ensure_ascii=False, sort_keys=True, indent=4)
+
+
+@MPCommand.option('-f', '--file', dest='filename', help='nombre de archivo JSON a leer')
+def read_list_codes(filename):
+    if filename is None:
+        print("no filename")
+        exit(1)
+    try:
+        data = json.load(open(filename))
+        if data is not None:
+            listado = data.get('Listado', [])
+        if listado is not None and len(listado) > 0:
+            for licitacion in listado:
+                codigo = licitacion.get('CodigoExterno', None)
+                if codigo is not None:
+                    print(codigo)
+        exit(0)
+    except Exception as e:
+        print(str(e))
+        exit(1)
+
+
+@MPCommand.option('-l', '--licitacion', dest='licitacion', help='nombre de archivo JSON de licitacion')
+def read_licitacion_fields(licitacion=None):
+    if licitacion:
+        host = current_app.config.get('JIRA_HOST', None)
+        user = current_app.config.get('JIRA_USER', None)
+        _pass = current_app.config.get('JIRA_PASS', None)
+        jiratool = JIRATool()
+        jiratool.auth(host, user, _pass)
+
+        patterns = ["software"]
+
+        try:
+            data = json.load(open(licitacion))
+            if data is not None:
+                listado = data.get('Listado', [])
+                if listado is not None and len(listado) > 0:
+                    licitacion = listado[0]
+                    codigo_externo = licitacion.get('CodigoExterno', None)
+                    nombre = licitacion.get('Nombre', None)
+                    descripcion = licitacion.get('Descripcion', None)
+                    print("Nombre: {0}".format(nombre))
+                    print("Descripcion: {0}".format(descripcion))
+
+                    full = "{0} {1}".format(nombre, descripcion)
+                    for pattern in patterns:
+                        if re.search(pattern, full, re.IGNORECASE):
+                            print("MATCH!")
+                            new_issue = jiratool.create_ticket(
+                                "SALES",
+                                "MP - ({0}) {1}".format(codigo_externo, nombre),
+                                "Opportunity",
+                                descripcion
+                            )
+
+        except Exception as e:
+            print(str(e))
+
