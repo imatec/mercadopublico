@@ -48,6 +48,10 @@ class Config(object):
     MP_ENDPOINT_PROVEEDOR = "http://api.mercadopublico.cl/servicios/v1/Publico/Empresas/BuscarProveedor"
     MP_ENDPOINT_COMPRADOR = "http://api.mercadopublico.cl/servicios/v1/Publico/Empresas/BuscarComprador"
 
+    JIRA_HOST = os.environ.get('JIRA_HOST', None)
+    JIRA_USER = os.environ.get('JIRA_USER', None)
+    JIRA_PASS = os.environ.get('JIRA_PASS', None)
+
     @staticmethod
     def init_app(app):
         pass
