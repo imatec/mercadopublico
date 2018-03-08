@@ -1,17 +1,17 @@
 #!/usr/bin/env bash
 
 if [ -z "$1" ]; then
-    TODAY=$(date -u +%Y%m%d)
+    DAY=$(date +%Y%m%d -d "yesterday")
 else
-    TODAY=$1
+    DAY=$1
 fi
 
 PATH_PUBLICACIONES="data/publicaciones"
 PATH_LICITACIONES="data/licitaciones"
 mkdir -p ${PATH_PUBLICACIONES}
 mkdir -p ${PATH_LICITACIONES}
-PUBLICACION="${PATH_PUBLICACIONES}/${TODAY}.json"
-python manage.py mp licitaciones --estado=publicada --fecha=${TODAY} --file=${PUBLICACION}
+PUBLICACION="${PATH_PUBLICACIONES}/${DAY}.json"
+python manage.py mp licitaciones --estado=publicada --fecha=${DAY} --file=${PUBLICACION}
 for i in $(python manage.py mp read_list_codes --file=${PUBLICACION});
 do
     sleep 2
