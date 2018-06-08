@@ -234,7 +234,7 @@ def read_licitacion_fields(licitacion=None):
         jiratool = JIRATool()
         jiratool.auth(host, user, _pass)
 
-        patterns = ["software"]
+        patterns = ["software", "web", "documental", "sistema", "computacional"]
 
         try:
             data = json.load(open(licitacion))
@@ -258,6 +258,7 @@ def read_licitacion_fields(licitacion=None):
                                 "Opportunity",
                                 descripcion
                             )
+                            break
 
         except Exception as e:
             print(str(e))
