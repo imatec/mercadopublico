@@ -234,7 +234,7 @@ def read_licitacion_fields(licitacion=None):
         jiratool = JIRATool()
         jiratool.auth(host, user, _pass)
 
-        patterns = ["software", "web", "documental", "sistema", "computacional"]
+        patterns = ["software", "web", "documental", "computacional"]
 
         try:
             data = json.load(open(licitacion))
